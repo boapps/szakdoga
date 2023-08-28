@@ -42,3 +42,23 @@ A rendszer emberi felügyelet alatt működne, ezekből az emberi beavatkozások
 Már létrehoztam egy demo oldalt, ami egy kevésbé kifinomult modellt használva megjelenít korrupciósnak vélt cikkeket.
 Kész van egy alap felület, amiben felül lehet bírálni a modell döntését és a hibás döntéseket kiírom egy csv file-ba.
 Ezt pedig visszapörgetem a tanítóhalmazba.
+
+#### Modell
+
+##### Finomhangolás
+
+Mindenképpen LoRA finomhangolást kell végezni.
+
+Alap modellre két lehetőség van:
+- [llama 7B](https://huggingface.co/huggyllama/llama-7b): jobb, viszont kell engedélyt szerezni a meta-tól
+- [PULI-GPT-3SX](https://huggingface.co/NYTK/PULI-GPT-3SX): rosszabb, viszont szabadon használható
+
+##### Formátum
+
+TODO: kísérletezni, mennyi a különbség (ha nem sok, akkor kevesebb szöveggel tanítás gyorsíthat a finomhangoláson és a használtaon is).
+
+lehetőségek:
+- Cím + lead + kulcsszavak
+- Cím + lead + random bekezdés + kulcsszavak
+- Cím + lead + teljes szöveg + kulcsszavak
+
