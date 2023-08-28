@@ -26,6 +26,10 @@ Egyelőre csak URL alapján kiszűrjük az angol híreket (pl.: `https://telex.h
 
 ### 3. Cikk szövegének tisztítása
 
+A newspaper3k nem tökéletes, a szövegbe kerülnek felesleges sorok.
+Ezek gyakran ismétlődnek, így globális előfordulási gyakoriság alapján szűrhetők.
+Magyarul: van egy common_lines fájl, ami a gyakori sorokat tartalmazza.
+
 ### 4. Korrupció klasszifikáció
 
 Cikkekről eldönteni, hogy korrupciós témát dolgoznak-e fel.
@@ -99,8 +103,28 @@ Hasonló, mint a "Korrupció klasszifikáció"-nál.
 
 ### 8. Entitásfelismerés
 
+Spacy-vel előre kinyerjük a szövegben előforduló entitásokat.
+Majd ezek közül választja ki a következő lépés a relevánsakat.
+
+(lehet hogy a végleges megoldásban el lesz hagyva, ha nem javít sokat a végeredményen)
+
 ### 9. Személyek, intézmények és helyszínek relevanciája
+
+Kiválasztja a releváns entitásokat a szövegből, tehát pl. személy esetén azt aki a cikk szerint korrupciós tevéknenységgel összefüggésbe hozható.
 
 ### 10. Entitások közti kapcsolat
 
+Entitások közti reláció kinyerése.
+Pl. millyen kapcsolat van két személy esetén.
+
+Ilyen hármasok formájában: `{Jancsi, Juliska, testvér}` + bekezdés, ami erről ír + indoklás
+
+#### Adathalmaz
+
+Ehhez OpenAI API-t fogok használni: Megadok egy bekezdést és megkérem, hogy indoklással együtt adja meg a benne szereplő kapcsolatokat.
+
 ### 11. Webes UI
+
+Egy egyszerű webes felület, ami a modell által korupciósnak ítélt cikkeket megjeleníti egy listában.
+A cikkekhez két gomb lenne: helyes a döntés vagy sem.
+Ugyanígy a kulcsszavakra, entitás kapcsolatokra és releváns entitásokra is kell egy szerkesztői felület.
