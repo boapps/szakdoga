@@ -14,8 +14,19 @@ Magas szinten:
 
 ![Folyamatábra](/assets/flowchart.png)
 
+### 1. Új cikk letöltése
 
-### Klasszifikáció
+Rendszeresen lekérjük hírportálok RSS feed-jét és az új cikkeket letöltjük newspaper3k python könyvtárral.
+
+TODO: majd külön scraperek írása olyan oldalakhoz, amikkel nem (tökéletesen működik a newspaper3k).
+
+### 2. Rovat szerinti szűrés
+
+Egyelőre csak URL alapján kiszűrjük az angol híreket (pl.: `https://telex.hu/english/.*`) vagy életmód, stb. irreleváns rovatba tartozó cikkeket.
+
+### 3. Cikk szövegének tisztítása
+
+### 4. Korrupció klasszifikáció
 
 Cikkekről eldönteni, hogy korrupciós témát dolgoznak-e fel.
 
@@ -62,3 +73,34 @@ lehetőségek:
 - Cím + lead + random bekezdés + kulcsszavak
 - Cím + lead + teljes szöveg + kulcsszavak
 
+### 5. Másik cikkre hivatkozik
+
+Az adatbázist nem szeretnénk redundáns cikkekkel megtölteni, amik a már adatbázisban levő cikkek átvételei és semmilyen plusz információt nem tartalmaznak.
+
+Ehhez egy egyszerű minta-alapú algoritmust használunk, ami például ilyen szerkezetű mondatokat ismer fel: "... írja a telex.hu".
+
+TODO: lehetne HuSpaCy-vel bonyolítani
+
+### 6. Helyreigazítás-e
+
+Szeretnénk külön kezelni helyreigazításokat és esetleg kinyerni melyik cikkre hivatkozik a helyreigazítás.
+
+Erre is egy szabály-alapú algoritmus/HuSpaCy lenne a megoldás.
+
+### 7. Kulcsszavak kinyerése
+
+#### Adathalmaz
+
+#### Modell
+
+Hasonló, mint a "Korrupció klasszifikáció"-nál.
+
+##### Formátum
+
+### 8. Entitásfelismerés
+
+### 9. Személyek, intézmények és helyszínek relevanciája
+
+### 10. Entitások közti kapcsolat
+
+### 11. Webes UI
