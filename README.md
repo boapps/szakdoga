@@ -10,7 +10,10 @@ Tehát korrupció* témájú szövegek gépi elemzése, klasszifikációja, tén
 
 ## Megvalósítás
 
-Magas szinten: (insert folyamatábra)
+Magas szinten: 
+
+![Folyamatábra](/assets/flowchart.png)
+
 
 ### Klasszifikáció
 
