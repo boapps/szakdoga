@@ -18,7 +18,7 @@ Magas szinten:
 
 Rendszeresen lekérjük hírportálok RSS feed-jét és az új cikkeket letöltjük newspaper3k python könyvtárral.
 
-TODO: majd külön scraperek írása olyan oldalakhoz, amikkel nem (tökéletesen működik a newspaper3k).
+TODO: majd külön scraperek írása olyan oldalakhoz, amikkel nem (tökéletesen) működik a newspaper3k.
 
 ### 2. Rovat szerinti szűrés [kb kész]
 
@@ -70,7 +70,7 @@ Alap modellre két lehetőség van:
 
 ##### Formátum
 
-TODO: kísérletezni, mennyi a különbség (ha nem sok, akkor kevesebb szöveggel tanítás gyorsíthat a finomhangoláson és a használtaon is).
+TODO: kísérletezni, mennyi a különbség (ha nem sok, akkor kevesebb szöveggel tanítás gyorsíthat a finomhangoláson és a használaton is).
 
 lehetőségek:
 - Cím + lead + kulcsszavak
