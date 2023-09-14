@@ -2,20 +2,40 @@ import newspaper
 import re
 from urllib.parse import urlparse
 
-with open('common_descriptions.txt') as f:
-    common_descriptions = f.readlines()
-
-with open('common_lines.txt') as f:
-    common_lines = f.readlines()
+def read_file(filename):
+    with open(filename, 'r') as f:
+        return f.readlines()
 
 def clear_url(url):
+    """
+    Clears the URL by removing .www and any trailing slashes.
+
+    Args:
+        url (str): The URL to be cleared.
+
+    Returns:
+        str: The cleared URL.
+    """
     u = urlparse(url)
     return u.scheme +'://'+ u.netloc + '/' + u.path.replace('www.', '').strip('/')
 
 def do_replacements(text, replacements):
+    """
+    Replace all occurrences of patterns in a string with their corresponding replacements.
+
+    Parameters:
+        text (str): The input string.
+        replacements (dict): A dictionary of patterns and their corresponding replacements.
+
+    Returns:
+        str: The output string with all occurrences of patterns replaced.
+    """
     for pattern, replacement in replacements:
         text = pattern.sub(replacement, text)
     return text
+
+common_descriptions = read_file('common_descriptions.txt')
+common_lines = read_file('common_lines.txt')
 
 picture_pattern = re.compile(r'Fotó: (\w+\/[^\s]+ [^\s]+|MTI)')
 picture_pattern = re.compile(r'Fotó: .*')
