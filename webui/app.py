@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import requests
 import newspaper
 import sys
@@ -42,17 +42,16 @@ téma:'''
 
 
 def save_state():
+    # sort articles by date
     articles.sort(reverse=True, key=lambda a: a.date)
-    #print('save')
 
-    with open('articles', 'wb') as articles_file:
-        pickle.dump(articles, articles_file)
+    save_file('data/articles', articles)
+    save_file('data/article_queue', article_queue)
+    save_file('data/seen', seen)
 
-    with open('article_queue', 'wb') as queue_file:
-        pickle.dump(article_queue, queue_file)
-
-    with open('seen', 'wb') as seen_file:
-        pickle.dump(seen, seen_file)
+def save_file(filename, data):
+    with open(filename, 'wb') as articles_file:
+        pickle.dump(data, articles_file)
 
 def load_file(name: str):
     try:
@@ -65,9 +64,9 @@ def load_file(name: str):
 
 def load_state():
     print('loading state...')
-    articles = load_file('articles')
-    seen = load_file('seen')
-    article_queue = load_file('article_queue')
+    articles = load_file('data/articles')
+    seen = load_file('data/seen')
+    article_queue = load_file('data/article_queue')
 
     return articles, seen, article_queue
 
@@ -181,5 +180,7 @@ def article_list_page():
         url = request.args.get('url_corr')
         print('url_corr:', url)
         articles = [article for article in articles if article.url != url]
-    #TODO: validate input/use templates
-    return '\n<hr>\n'.join(['<h3><a href="'+article.url+'">'+article.title+"</a></h3>\n<p>"+article.description+'</p>\n<time>'+article.date+'</time>'+'<a href="/?url_corr='+article.url+'">korrupció</a>'+'<p> </p>'+'<a href="/?url='+article.url+'">nem korrupció</a>' for article in articles])
+    return render_template('index.html', articles=articles)
+
+if __name__ == '__main__':
+    app.run(debug=True)
