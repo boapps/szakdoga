@@ -13,6 +13,7 @@ import pickle
 from flask import request
 import csv
 import lm_dataformat
+import sqlite3
 
 LLM_SERVER = 'http://127.0.0.1:8085'
 
@@ -149,11 +150,15 @@ def process(article: Article.Article):
             print('exception occured, retrying in 10 seconds')
             time.sleep(10)
 
+def load_json_from_file(filename: str) -> dict:
+    with open(filename) as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return {}
 
-with open('feed_urls.json') as feed_file:
-    feed_urls: [str] = json.load(feed_file)
-with open('skip_url_patterns.json') as skip_url_file:
-    skip_url_patterns: [str] = json.load(skip_url_file)
+feed_urls = load_json_from_file('feed_urls.json')
+skip_url_patterns = load_json_from_file('skip_url_patterns.json')
 
 articles, seen, article_queue = load_state()
 #init_seen()
