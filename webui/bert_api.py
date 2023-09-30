@@ -16,7 +16,7 @@ def index():
     logits = model(**inputs).logits
     probabilities = F.softmax(logits[0], dim=-1)
     res = torch.argmax(logits, axis=1)[0]
-    corruption = probabilities[0] > 0.42
+    corruption = probabilities[0] < 0.42
     return jsonify({"class": "corruption" if corruption else "other"}), 200
 
 if __name__ == "__main__":
