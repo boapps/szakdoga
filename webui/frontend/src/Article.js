@@ -5,7 +5,7 @@ var Article = {
     loadList: function() {
         return m.request({
             method: "GET",
-            url: "http://localhost:8000/api/articles",
+            url: "http://kmonitordemo.duckdns.org/api/articles",
         })
         .then(function(result) {
             Article.list = result
