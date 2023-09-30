@@ -1,5 +1,6 @@
 import newspaper
 import re
+import json
 from urllib.parse import urlparse
 
 def read_file(filename):
@@ -112,7 +113,8 @@ class Article:
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        del state['news_article']
+        if 'news_article' in state:
+            del state['news_article']
         return state
 
     def __setstate__(self, state):
@@ -125,4 +127,4 @@ class Article:
         return self.__str__()
 
     def __json__(self):
-        return self.__dict__()
+        return json.dumps({'url': self.url, 'title': self.title, 'text': self.text, 'description': self.description, 'keywords': self.keywords, 'date': self.date})
