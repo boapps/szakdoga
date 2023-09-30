@@ -187,5 +187,9 @@ def article_list_page():
         articles = [article for article in articles if article.url != url]
     return render_template('index.html', articles=articles)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route("/articles", methods=["GET"])
+def articles():
+    return jsonify(articles), 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
