@@ -127,4 +127,4 @@ class Article:
         return self.__str__()
 
     def __json__(self):
-        return json.dumps({'url': self.url, 'title': self.title, 'text': self.text, 'description': self.description, 'keywords': self.keywords, 'date': self.date})
+        return {'url': self.url, 'title': self.title, 'text': self.text, 'description': self.description, 'keywords': self.keywords, 'date': self.date}
