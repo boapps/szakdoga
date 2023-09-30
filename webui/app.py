@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 import requests
 import newspaper
 import sys
@@ -187,8 +187,8 @@ def article_list_page():
         articles = [article for article in articles if article.url != url]
     return render_template('index.html', articles=articles)
 
-@app.route("/articles", methods=["GET"])
-def articles():
+@app.route("/api/articles/", methods=["GET"])
+def api_articles():
     return jsonify(articles), 200
 
 if __name__ == "__main__":
