@@ -110,6 +110,14 @@ class Article:
         else:
             self.date = ''
 
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['news_article']
+        return state
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+
     def __str__(self):
         return json.dumps(dict(self), ensure_ascii=False)
 
