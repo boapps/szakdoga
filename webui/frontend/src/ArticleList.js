@@ -43,7 +43,7 @@ var ArticleList = {
                         m("p[style=padding-top:10px]", "Cím"),
                         m(Input, { autofocus: true, fluid: true, defaultValue: article.title}),
                         m("p[style=padding-top:10px]", "Lead"),
-                        m(Input, { autofocus: true, fluid: true, defaultValue: article.lead}),
+                        m(Input, { autofocus: true, fluid: true, defaultValue: article.description}),
                         m("p[style=padding-top:10px]", "Szöveg"),
                         m("div", [
                             m('textarea.text-class', {
