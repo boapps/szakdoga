@@ -28,18 +28,8 @@ articles: [Article.Article] = []
 # articles queued for processing
 article_queue: [Article.Article] = []
 
-article_classification_prompt = '''[korrupció klasszifikáció]
-{title}
-
-{description}
-
-{text}
-
-cimkék: {keywords}
-
-###
-
-téma:'''
+article_classification_prompt = '''{title}
+{description}'''
 
 
 def save_state():
@@ -134,12 +124,11 @@ def process(article: Article.Article):
             break
         try:
             t = time.time()
-            print('sending request to local ggml server')
-            # TODO: temperature crashing
-            resp = requests.post(LLM_SERVER+'/completion', json={"prompt": text, "temp": "0"}, timeout=1800)
-            respText = resp.json()['content']
+            print('sending request to local bert server')
+            resp = requests.post(LLM_SERVER+'/classify', json={"text": text}, timeout=1800)
+            respText = resp.json()['class']
             print(respText)
-            if 'korrupció' in respText:
+            if respText == 'corruption':
                 print('found corruption', article.title)
                 articles.append(article)
             elapsed_time = time.time() - t
@@ -187,7 +176,7 @@ def article_list_page():
         articles = [article for article in articles if article.url != url]
     return render_template('index.html', articles=articles)
 
-@app.route("/api/articles/", methods=["GET"])
+@app.route("/api/articles", methods=["GET"])
 def api_articles():
     return jsonify(articles), 200
 
