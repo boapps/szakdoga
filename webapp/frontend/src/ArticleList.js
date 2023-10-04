@@ -105,7 +105,7 @@ var ArticleList = {
             ])
         }),
         m(ButtonGroup, {}, Array.apply(null, Array(Article.pages)).map(function (_, i) {
-            return m(Button, {iconLeft: Icons.CHEVRON_LEFT, intent: 'none', label: i+1, onclick: e => Article.page=i+1 && Article.loadList()});
+            return m(Button, {intent: i+1 == Article.page ? 'primary' : 'none', label: i+1, onclick: e => (Article.page=i+1) && Article.loadList()});
         })),
     ])
     }
