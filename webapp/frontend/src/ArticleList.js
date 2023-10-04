@@ -27,7 +27,7 @@ var ArticleList = {
     oninit: Article.loadList,
     isOpen: false,
     view: function() {
-        return m("[style=padding:30px]", Article.list.map(function(article) {
+        return m("[style=padding:30px]", [Article.list.map(function(article) {
             return m(Card, [
                 m("h4", article.title),
                 m("div", article.lead),
@@ -103,7 +103,12 @@ var ArticleList = {
                     ])
                   })
             ])
-        }))
+        }),
+        m("p", "Oldalak: " + Article.pages),
+        m(ButtonGroup, {}, [
+            m(Button, {iconLeft: Icons.CHEVRON_LEFT, intent: 'none', label: 'next page', onclick: e => Article.page++ && Article.loadList()}),
+        ]),
+    ])
     }
 }
 
