@@ -1,11 +1,27 @@
-import newspaper
 import re
-import json
 from urllib.parse import urlparse
+
+from auto_kmdb.db import db
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __init__(self, name):
+        self.name = name
+
+
+article_tag = db.Table('article_tag',
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True)
+)
+
 
 def read_file(filename):
     with open(filename, 'r') as f:
         return f.readlines()
+
 
 def clear_url(url):
     """
@@ -18,7 +34,8 @@ def clear_url(url):
         str: The cleared URL.
     """
     u = urlparse(url)
-    return u.scheme +'://'+ u.netloc + '/' + u.path.replace('www.', '').strip('/')
+    return u.scheme + '://' + u.netloc + '/' + u.path.replace('www.', '').strip('/')
+
 
 def do_replacements(text, replacements):
     """
@@ -35,8 +52,9 @@ def do_replacements(text, replacements):
         text = pattern.sub(replacement, text)
     return text
 
-common_descriptions = read_file('common_descriptions.txt')
-common_lines = read_file('common_lines.txt')
+
+common_descriptions = read_file('data/common_descriptions.txt')
+common_lines = read_file('data/common_lines.txt')
 
 picture_pattern = re.compile(r'Fotó: (\w+\/[^\s]+ [^\s]+|MTI)')
 picture_pattern = re.compile(r'Fotó: .*')
@@ -53,14 +71,27 @@ replacements = [(picture_pattern, ''), (quote_pattern, '"'),
                 (space_pattern, ' '), (dash_pattern, '-'),
                 (photo_camera_pattern, ''), (newline_pattern, '\n\n')]
 
-class Article:
+
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String)
+    title = db.Column(db.String)
+    text = db.Column(db.String)
+    description = db.Column(db.String)
+    date = db.Column(db.String)
+    keywords = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles', lazy='dynamic'))
+    is_classified = db.Column(db.Boolean, default=False)
+    is_corruption = db.Column(db.Boolean, default=False)
+
     def __init__(self, url: str):
+        import newspaper
+
         self.url: str = clear_url(url)
 
         self.news_article = newspaper.Article(self.url)
         self.download()
         self.parse()
-        
+
         self.prepare_title()
         self.prepare_text()
         self.prepare_description()
@@ -70,6 +101,7 @@ class Article:
         self.text = do_replacements(self.text, replacements).strip()
         self.description = do_replacements(self.description, replacements).strip()
         self.title = do_replacements(self.title, replacements).strip()
+        self.is_classified = False
 
     def download(self):
         self.news_article.download()
@@ -111,20 +143,11 @@ class Article:
         else:
             self.date = ''
 
-    def __getstate__(self):
-        state = self.__dict__.copy()
-        if 'news_article' in state:
-            del state['news_article']
-        return state
-
-    def __setstate__(self, state):
-        self.__dict__.update(state)
-
     def __str__(self):
-        return json.dumps(dict(self), ensure_ascii=False)
+        return str(self.dict())
 
     def __repr__(self):
         return self.__str__()
 
-    def __json__(self):
+    def dict(self):
         return {'url': self.url, 'title': self.title, 'text': self.text, 'description': self.description, 'keywords': self.keywords, 'date': self.date}
