@@ -104,10 +104,9 @@ var ArticleList = {
                   })
             ])
         }),
-        m("p", "Oldalak: " + Article.pages),
-        m(ButtonGroup, {}, [
-            m(Button, {iconLeft: Icons.CHEVRON_LEFT, intent: 'none', label: 'next page', onclick: e => Article.page++ && Article.loadList()}),
-        ]),
+        m(ButtonGroup, {}, Array.apply(null, Array(Article.page)).map(function (_, i) {
+            return m(Button, {iconLeft: Icons.CHEVRON_LEFT, intent: 'none', label: i+1, onclick: e => Article.page=i+1 && Article.loadList()});
+        })),
     ])
     }
 }
