@@ -15,9 +15,6 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        aarticles = len(Article.query.all())
-
-        print(aarticles)
 
         from auto_kmdb.routes import api
         app.register_blueprint(api)
