@@ -132,7 +132,8 @@ var ArticleList = {
                   })
             ])
         }),
-        m(ButtonGroup, {}, Array.apply(null, Array(Article.pages)).filter((_, n) => n+1 == 1 || n+1 == Article.pages || Math.abs(n+1-Article.page) < 3).map(function (_, i) {
+        // Array.apply(null, Array(152)).map((_,n) => n+1).filter(n => n == 1 || n == 152 || Math.abs(n-page) < 3)
+        m(ButtonGroup, {}, Array.apply(null, Array(Article.pages)).map((_,n) => n+1).filter((n) => n == 1 || n == Article.pages || Math.abs(n-Article.page) < 3).map(function (_, i) {
             return m(Button, {intent: i+1 == Article.page ? 'primary' : 'none', label: i+1, onclick: e => (Article.page=i+1) && Article.loadList()});
         })),
     ])
