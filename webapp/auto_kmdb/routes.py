@@ -13,6 +13,7 @@ def api_articles():
 
 @api.route('/not_corruption', methods=["POST"])
 def not_corruption():
-    id = request.args.get('id', 0, type=int)
+    id = request.json['id']
     Article.query.filter_by(id=id).first().is_annoted = True
     Article.query.filter_by(id=id).first().is_annoted_corruption = False
+    return jsonify({}), 200
