@@ -8,5 +8,11 @@ api = Blueprint('api', __name__, url_prefix='/api')
 @api.route('/articles', methods=["GET"])
 def api_articles():
     page = request.args.get('page', 1, type=int)
-    pagination = Article.query.filter_by(is_corruption=True).order_by(Article.date.desc()).paginate(page=page, per_page=10)
+    pagination = Article.query.filter_by(is_classified=True, is_classified_corruption=True, is_annoted=False).order_by(Article.date.desc()).paginate(page=page, per_page=10)
     return jsonify({'pages': pagination.pages, 'articles': [a.dict() for a in pagination]}), 200
+
+@api.route('/not_corruption', methods=["POST"])
+def not_corruption():
+    id = request.args.get('id', 0, type=int)
+    Article.query.filter_by(id=id).first().is_annoted = True
+    Article.query.filter_by(id=id).first().is_annoted_corruption = False

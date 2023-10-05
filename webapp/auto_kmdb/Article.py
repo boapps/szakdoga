@@ -81,8 +81,13 @@ class Article(db.Model):
     description = db.Column(db.String)
     date = db.Column(db.String)
     keywords = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles', lazy='dynamic'))
+    
     is_classified = db.Column(db.Boolean, default=False)
-    is_corruption = db.Column(db.Boolean, default=False)
+    is_classified_corruption = db.Column(db.Boolean, default=False)
+    classification_score = db.Column(db.Integer, default=0)
+    
+    is_annoted = db.Column(db.Boolean, default=False)
+    is_annoted_corruption = db.Column(db.Boolean, default=True)
 
     def __init__(self, url: str):
         import newspaper

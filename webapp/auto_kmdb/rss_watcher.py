@@ -26,7 +26,6 @@ def get_new_from_rss(url):
             if any(entry.link.startswith(url_pattern) for url_pattern in skip_url_patterns):
                 articles_skipped += 1
                 continue
-
             try:
                 db.session.add(Article(entry.link))
                 articles_found += 1
@@ -36,7 +35,6 @@ def get_new_from_rss(url):
                 traceback.print_exc()
             finally:
                 time.sleep(3)
-    # TODO: sorting
     if articles_found > 0:
         print(url, 'found', articles_found, 'articles')
     if articles_skipped > 0:

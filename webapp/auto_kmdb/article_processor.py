@@ -15,7 +15,6 @@ def article_processor(appcontext):
     appcontext.push()
     while True:
         query = Article.query.filter_by(is_classified=False)
-        print(query.count())
         while query.count() > 0:
             process(query.first())
             query.first().is_classified = True
@@ -44,7 +43,7 @@ def process(article: Article):
             if respText == 'corruption':
                 print('found corruption', article.title)
                 db.session.commit()
-                article.is_corruption = True
+                article.is_classified_corruption = True
             elapsed_time = time.time() - t
             print('done in:', elapsed_time)
             break
