@@ -7,3 +7,6 @@ venv/
 __pycache__/
 webui/data/*
 .continue/
+package-lock.json
+node_modules/
+dist/
