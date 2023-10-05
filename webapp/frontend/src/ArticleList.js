@@ -35,7 +35,7 @@ var ArticleList = {
                 m(ButtonGroup, {}, [
                     m(Button, {iconLeft: Icons.X, intent: 'none', label: 'Nem korrupció', onclick: e => m.request({
                         method: "POST",
-                        url: "http://kmonitordemo.duckdns.org/api/notcorrupt",
+                        url: "http://kmonitordemo.duckdns.org/api/not_corruption",
                         body: {
                             id: article.id,
                         },
