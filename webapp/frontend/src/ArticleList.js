@@ -33,7 +33,17 @@ var ArticleList = {
                 m("div", article.lead),
                 m("date", article.date),
                 m(ButtonGroup, {}, [
-                    m(Button, {iconLeft: Icons.X, intent: 'none', label: 'Nem korrupció'}),
+                    m(Button, {iconLeft: Icons.X, intent: 'none', label: 'Nem korrupció', onclick: e => m.request({
+                        method: "POST",
+                        url: "http://kmonitordemo.duckdns.org/api/notcorrupt",
+                        body: {
+                            id: article.id,
+                        },
+                    }).then(function(result) {
+                        console.log(result);
+                        Article.loadList();
+                    }),
+                }),
                     m(Button, {iconLeft: Icons.CHECK, intent: 'primary', label: 'Korrupció', onclick: e => article.isOpen=true}),
                 ]),
                 m(Dialog, {
@@ -93,18 +103,36 @@ var ArticleList = {
                     title: 'Cikk szerkesztése',
                     footer: m(`.${Classes.ALIGN_RIGHT}`, [
                       m(Button, {
-                        label: 'Close',
+                        label: 'Mégse',
                         onclick: e => article.isOpen=false,
                       }),
                       m(Button, {
-                        label: 'Submit',
+                        label: 'Küldés',
                         intent: 'primary',
+                        onclick: e => {
+                            return m.request({
+                                method: "POST",
+                                url: "http://kmonitordemo.duckdns.org/api/annote",
+                                body: {
+                                    url: article.url,
+                                    title: article.title,
+                                    description: article.description,
+                                    text: article.text,
+                                    people: Array.from(selectedPeople.keys()),
+                                    tags: Array.from(selected.keys()),
+                                },
+                            })
+                            .then(function(result) {
+                                console.log(result);
+                                article.isOpen = false;
+                            });
+                        },
                       })
                     ])
                   })
             ])
         }),
-        m(ButtonGroup, {}, Array.apply(null, Array(Article.pages+1)).filter((_, n) => n == 1 || n == Article.pages || Math.abs(n-Article.page) < 3).map(function (_, i) {
+        m(ButtonGroup, {}, Array.apply(null, Array(Article.pages)).filter((_, n) => n+1 == 1 || n+1 == Article.pages || Math.abs(n+1-Article.page) < 3).map(function (_, i) {
             return m(Button, {intent: i+1 == Article.page ? 'primary' : 'none', label: i+1, onclick: e => (Article.page=i+1) && Article.loadList()});
         })),
     ])
