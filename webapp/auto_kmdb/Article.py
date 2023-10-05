@@ -75,6 +75,7 @@ replacements = [(picture_pattern, ''), (quote_pattern, '"'),
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String)
+    original_url = db.Column(db.String)
     title = db.Column(db.String)
     text = db.Column(db.String)
     description = db.Column(db.String)
@@ -86,6 +87,7 @@ class Article(db.Model):
     def __init__(self, url: str):
         import newspaper
 
+        self.original_url = url
         self.url: str = clear_url(url)
 
         self.news_article = newspaper.Article(self.url)
@@ -101,7 +103,6 @@ class Article(db.Model):
         self.text = do_replacements(self.text, replacements).strip()
         self.description = do_replacements(self.description, replacements).strip()
         self.title = do_replacements(self.title, replacements).strip()
-        self.is_classified = False
 
     def download(self):
         self.news_article.download()

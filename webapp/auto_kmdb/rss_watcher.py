@@ -22,7 +22,7 @@ def get_new_from_rss(url):
     articles_skipped = 0
     feed = feedparser.parse(url)
     for entry in feed.entries:
-        if db.session.query(Article).filter(Article.url == entry.link).count() == 0:
+        if Article.query.filter_by(original_url=entry.link).count() == 0:
             if any(entry.link.startswith(url_pattern) for url_pattern in skip_url_patterns):
                 articles_skipped += 1
                 continue
