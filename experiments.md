@@ -1,30 +1,11 @@
-### Klasszifikáció, NYTK/PULI-GPT-3SX, finomhangolás, cím+lead, 10:1
+### Klasszifikáció
 
-precision: 0.7757009345794392
+|                                 | precision          | recall             | accuracy           | gpu inference |
+|---------------------------------|--------------------|--------------------|--------------------|---------------|
+| NYTK/PULI-GPT-3SX finomhangolva | 0.776              | 0.878              | 0.966              | 1.90it/s      |
+| llama 7B finomhangolva          | 0.860              | 0.810              | 0.971              |               |
+| huBERT                          | 0.739              | 0.950              | 0.963              | 126.85it/s    |
 
-recall: 0.8783068783068783
-
-accuracy: 0.9659309021113244
-
-gpu inference: 1.90it/s
-
-### Klasszifikáció, huBERT, finomhangolás, cím+lead, 10:1
-
-precision: 0.7392996108949417
-
-recall: 0.95
-
-accuracy: 0.9632458233890214
-
-gpu inference: 126.85it/s
-
-### Klasszifikáció, llama, finomhangolás, cím+lead, 10:1
-
-precision: 0.8595505617977528
-
-recall: 0.8095238095238095
-
-accuracy: 0.9707293666026872
 
 ### Kulcsszó generálás, NYTK/PULI-GPT-3SX, finomhangolás, szöveg törzs
 
