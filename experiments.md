@@ -18,6 +18,14 @@ accuracy: 0.9632458233890214
 
 gpu inference: 126.85it/s
 
+### Klasszifikáció, llama, finomhangolás, cím+lead, 10:1
+
+precision: 0.8595505617977528
+
+recall: 0.8095238095238095
+
+accuracy: 0.9707293666026872
+
 ### Kulcsszó generálás, NYTK/PULI-GPT-3SX, finomhangolás, szöveg törzs
 
                                             precision    recall  f1-score   support
