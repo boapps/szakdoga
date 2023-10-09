@@ -1,11 +1,14 @@
 ### Klasszifikáció
 
-|                                 | precision          | recall             | accuracy           | gpu inference |
-|---------------------------------|--------------------|--------------------|--------------------|---------------|
-| NYTK/PULI-GPT-3SX finomhangolva | 0.776              | 0.878              | 0.966              | 1.90it/s      |
-| llama 7B finomhangolva          | 0.860              | 0.810              | 0.971              |               |
-| huBERT                          | 0.739              | 0.950              | 0.963              | 126.85it/s    |
+|                                 | precision          | recall             | accuracy           | gpu* inference | cpu** inference |
+|---------------------------------|--------------------|--------------------|--------------------|----------------|-----------------|
+| NYTK/PULI-GPT-3SX finomhangolva | 0.776              | 0.878              | 0.966              | 1.90it/s       |                 |
+| llama 7B finomhangolva          | 0.860              | 0.810              | 0.971              |                |                 |
+| huBERT                          | 0.739              | 0.950              | 0.963              | 126.85it/s     | 7.10it/s        |
 
+\* Nvidia 3060 12gb
+
+** Ampere A1 (Oracle cloud)
 
 ### Kulcsszó generálás, NYTK/PULI-GPT-3SX, finomhangolás, szöveg törzs
 
