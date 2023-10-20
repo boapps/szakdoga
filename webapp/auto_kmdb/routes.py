@@ -18,3 +18,8 @@ def not_corruption():
     Article.query.filter_by(id=id).first().is_annoted_corruption = False
     db.session.commit()
     return jsonify({}), 200
+
+@api.route('/annote', methods=["POST"])
+def annote():
+    print(request.json)
+    return jsonify({}), 200
