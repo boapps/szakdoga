@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request
 
 from auto_kmdb.Article import Article
-
+from auto_kmdb.db import db
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -16,4 +16,5 @@ def not_corruption():
     id = request.json['id']
     Article.query.filter_by(id=id).first().is_annoted = True
     Article.query.filter_by(id=id).first().is_annoted_corruption = False
+    db.session.commit()
     return jsonify({}), 200
