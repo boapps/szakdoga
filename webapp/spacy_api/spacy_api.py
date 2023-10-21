@@ -20,14 +20,26 @@ def extract_entities(data: Data):
     return {"message": data.text, "lang": "TODO", "ents": ents}
 
 
+def distinct(entity_list):
+    distinct_entity_list = []
+    for entity in entity_list:
+        for entity2 in entity_list:
+            if len(entity) < len(entity2) and entity in entity2:
+                break
+        else:
+            distinct_entity_list.append(entity)
+    return distinct_entity_list
+
+
 @app.post("/entities")
 def entities(data: Data):
     doc = nlp(data.text)
+    people = [entity.lemma_ for entity in doc.ents if entity.label_ == "PER"]
+    institutions = [entity.lemma_ for entity in doc.ents if entity.label_ == "ORG"] 
+    distinct_people = distinct(people)
+    distinct_institutions = distinct(institutions)
+
     return {
-        "people": ''.join(
-            [entity.text for entity in doc.ents if entity.label_ == "PER"]
-            ),
-        "institutions": ''.join(
-            [entity.text for entity in doc.ents if entity.label_ == "ORG"]
-            )
+        "people": ', '.join(distinct_people),
+        "institutions": ', '.join(distinct_institutions)
         }
