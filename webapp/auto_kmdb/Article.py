@@ -162,8 +162,17 @@ class Article(db.Model):
 
     def dict(self):
         return {
-            'id': self.id, 'classification_score': self.classification_score,
-            'url': self.url, 'title': self.title, 'text': self.text,
-            'description': self.description, 'keywords': self.keywords,
+            'id': self.id,
+            'classification_score': self.classification_score,
+            'url': self.url,
+            'title': self.title,
+            'text': self.text,
+            'description': self.description,
+            'keywords': self.keywords,
+            'tags': self.tags, 
+            'people': self.people,
+            'institutions': self.institutions,
+            'corrupt_people': self.corrupt_people,
+            'corrupt_institutions': self.corrupt_institutions,
             'date': self.date
             }
