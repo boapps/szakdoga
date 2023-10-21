@@ -8,6 +8,7 @@ from auto_kmdb.db import db
 
 CLASSIFICATION_SERVER = 'http://127.0.0.1:8085'
 KEYWORD_GENERATION_SERVER = 'http://127.0.0.1:8086'
+PEOPLE_INSTITUTIONS_SERVER = 'http://127.0.0.1:8087'
 article_classification_prompt = '''{title}
 {description}'''
 keyword_generation_prompt = '''[címkék generálása]
@@ -22,6 +23,20 @@ cimkék: {keywords}
 ###
 
 korrupciós címkék:'''
+people_classification_prompt = '''[személy klasszifikáció]
+{text}
+
+###
+
+összes: {all}
+korrupcióban érintett:'''
+institution_classification_prompt = '''[intézmény klasszifikáció]
+{text}
+
+###
+
+összes: {all}
+korrupcióban érintett:'''
 
 
 def article_processor(appcontext):
@@ -62,6 +77,28 @@ def do_keyword_generation(article: Article):
     respText = resp.json()['content'].strip()
     print(respText)
     article.tags = respText
+
+
+def do_people_classification(article: Article):
+    text = people_classification_prompt.format(text=article.text,
+                                               all=article.people)
+
+    resp = requests.post(PEOPLE_INSTITUTIONS_SERVER+'/completion',
+                                 json={"prompt": text}, timeout=1800)
+    respText = resp.json()['content'].strip()
+    print(respText)
+    article.corrupt_people = respText
+
+
+def do_institution_classification(article: Article):
+    text = institution_classification_prompt.format(text=article.text,
+                                                    all=article.institutions)
+
+    resp = requests.post(PEOPLE_INSTITUTIONS_SERVER+'/completion',
+                                 json={"prompt": text}, timeout=1800)
+    respText = resp.json()['content'].strip()
+    print(respText)
+    article.corrupt_institutions = respText
 
 
 def process(article: Article, f):

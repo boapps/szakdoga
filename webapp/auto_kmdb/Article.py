@@ -80,6 +80,11 @@ class Article(db.Model):
     text = db.Column(db.String)
     description = db.Column(db.String)
     date = db.Column(db.String)
+    tags = db.Column(db.String)
+    people = db.Column(db.String)
+    institutions = db.Column(db.String)
+    corrupt_people = db.Column(db.String)
+    corrupt_institutions = db.Column(db.String)
     keywords = db.relationship('Tag', secondary=article_tag, backref=db.backref('articles', lazy='dynamic'))
 
     is_classified = db.Column(db.Boolean, default=False)
