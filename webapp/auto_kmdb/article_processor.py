@@ -50,7 +50,13 @@ def article_processor(appcontext):
             db.session.commit()
             if article.is_classified_corruption:
                 process(article, do_keyword_generation)
-            db.session.commit()
+                db.session.commit()
+                process(article, do_spacy_entities)
+                db.session.commit()
+                process(article, do_people_classification)
+                db.session.commit()
+                process(article, do_institution_classification)
+                db.session.commit()
         time.sleep(1*60)
 
 
