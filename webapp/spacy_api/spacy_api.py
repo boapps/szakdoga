@@ -28,7 +28,7 @@ def distinct(entity_list):
                 break
         else:
             distinct_entity_list.append(entity)
-    return distinct_entity_list
+    return list(set(distinct_entity_list))
 
 
 @app.post("/entities")
