@@ -11,7 +11,7 @@ llama.cpp szerverek indítása:
 spacy api indítása:
 
 ```bash
-uvicorn spacy_api:app --reload
+uvicorn spacy_api:app --host 0.0.0.0 --port 8088
 ```
 
 bert api indítása:
