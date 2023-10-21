@@ -9,6 +9,7 @@ from auto_kmdb.db import db
 CLASSIFICATION_SERVER = 'http://127.0.0.1:8085'
 KEYWORD_GENERATION_SERVER = 'http://127.0.0.1:8086'
 PEOPLE_INSTITUTIONS_SERVER = 'http://127.0.0.1:8087'
+SPACY_SERVER = 'http://127.0.0.1:8088'
 article_classification_prompt = '''{title}
 {description}'''
 keyword_generation_prompt = '''[címkék generálása]
@@ -65,6 +66,15 @@ def do_classification(article: Article):
         print('found corruption', article.title)
         article.is_classified_corruption = True
     article.is_classified = True
+
+
+def do_spacy_entities(article: Article):
+    resp = requests.post(SPACY_SERVER+'/entities',
+                                 json={"text": article.text}, timeout=1800)
+    respText = resp.json()
+    print(respText)
+    article.people = respText['people']
+    article.institutions = respText['institutions']
 
 
 def do_keyword_generation(article: Article):

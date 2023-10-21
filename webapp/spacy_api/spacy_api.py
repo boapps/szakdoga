@@ -18,3 +18,16 @@ def extract_entities(data: Data):
     for ent in doc.ents:
         ents.append({"text": ent.text, "label_": ent.label_})
     return {"message": data.text, "lang": "TODO", "ents": ents}
+
+
+@app.post("/entities")
+def entities(data: Data):
+    doc = nlp(data.text)
+    return {
+        "people": ''.join(
+            [entity.text for entity in doc.ents if entity.label_ == "PER"]
+            ),
+        "institutions": ''.join(
+            [entity.text for entity in doc.ents if entity.label_ == "ORG"]
+            )
+        }
