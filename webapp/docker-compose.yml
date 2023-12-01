@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  downloader:
+    image: alpine:latest
+    volumes:
+      - shared-models:/models
+    environment:
+    command: sh -c "wget -P /models TODO"
+
+  auto_kmdb:
+    context: './auto_kmdb'
+    ports:
+      - "8080:8000"
+
+  entity_extraction:
+    context: './llama_cpp_docker'
+    volumes:
+      - shared-models:/models
+    ports:
+      - "8080:8000"
+    command: [ "-m /models/entity_extraction.gguf" ]
+
+
+  keyword_extraction:
+    context: './llama_cpp_docker'
+    volumes:
+      - shared-models:/models
+    ports:
+      - "8080:8000"
+    command: [ "-m /models/keyword_extraction.gguf" ]
+
+
+  relation_extraction:
+    context: './llama_cpp_docker'
+    volumes:
+      - shared-models:/models
+    ports:
+      - "8080:8000"
+    command: [ "-m /models/relation_extraction.gguf" ]
+
+volumes:
+  shared-models:
+
