@@ -1,0 +1,173 @@
+\documentclass[11pt,a4paper,oneside]{report}             % Single-side
+%\documentclass[11pt,a4paper,twoside,openright]{report}  % Duplex
+
+%\PassOptionsToPackage{chapternumber=Huordinal}{magyar.ldf}
+\usepackage{t1enc}
+\usepackage[utf8]{inputenc}
+%\usepackage{newunicodechar} 
+%\DeclareUnicodeCharacter{FFFD}{?????}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[thmmarks,amsmath]{ntheorem}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{anysize}
+\usepackage[hungarian]{babel}
+\usepackage{sectsty}
+\usepackage{setspace}  % Ettol a tablazatok, abrak, labjegyzetek maradnak 1-es sorkozzel!
+\usepackage[hang]{caption}
+\usepackage{hyperref}
+
+%--------------------------------------------------------------------------------------
+% Main variables
+%--------------------------------------------------------------------------------------
+\newcommand{\vikszerzo}{boa}
+\newcommand{\vikkonzulens}{Konzulens}
+\newcommand{\vikcim}{Információkereső rendszer fejlesztése rövid hírekhez}
+\newcommand{\viktanszek}{Méréstechnika és Információs Rendszerek Tanszék}
+\newcommand{\vikdoktipus}{Szakdolgozat}
+\newcommand{\vikdepartmentr}{BME/MIT}
+
+%--------------------------------------------------------------------------------------
+% Page layout setup
+%--------------------------------------------------------------------------------------
+% we need to redefine the pagestyle plain
+% another possibility is to use the body of this command without \fancypagestyle
+% and use \pagestyle{fancy} but in that case the special pages
+% (like the ToC, the References, and the Chapter pages)remain in plane style
+
+\pagestyle{plain}
+%\setlength{\parindent}{0pt} % áttekinthetőbb, angol nyelvű dokumentumokban jellemző
+%\setlength{\parskip}{8pt plus 3pt minus 3pt} % áttekinthetőbb, angol nyelvű dokumentumokban jellemző
+\setlength{\parindent}{12pt} % magyar nyelvű dokumentumokban jellemző
+\setlength{\parskip}{0pt}    % magyar nyelvű dokumentumokban jellemző
+
+\marginsize{35mm}{25mm}{15mm}{15mm} % anysize package
+\setcounter{secnumdepth}{0}
+\sectionfont{\large\upshape\bfseries}
+\setcounter{secnumdepth}{4}
+\singlespacing
+\frenchspacing
+
+%--------------------------------------------------------------------------------------
+%	Setup hyperref package
+%--------------------------------------------------------------------------------------
+\hypersetup{
+    bookmarks=true,            % show bookmarks bar?
+    unicode=false,             % non-Latin characters in Acrobats bookmarks
+    pdftitle={\vikcim},        % title
+    pdfauthor={\vikszerzo},    % author
+    pdfsubject={\vikdoktipus}, % subject of the document
+    pdfcreator={\vikszerzo},   % creator of the document
+    pdfproducer={Producer},    % producer of the document
+    pdfkeywords={keywords},    % list of keywords
+    pdfnewwindow=true,         % links in new window
+    colorlinks=true,           % false: boxed links; true: colored links
+    linkcolor=black,           % color of internal links
+    citecolor=black,           % color of links to bibliography
+    filecolor=black,           % color of file links
+    urlcolor=black             % color of external links
+}
+
+%--------------------------------------------------------------------------------------
+% Set up listings
+%--------------------------------------------------------------------------------------
+\lstset{
+	basicstyle=\scriptsize\ttfamily, % print whole listing small
+	keywordstyle=\color{black}\bfseries\underbar, % underlined bold black keywords
+	identifierstyle=, 					% nothing happens
+	commentstyle=\color{white}, % white comments
+	stringstyle=\scriptsize\sffamily, 			% typewriter type for strings
+	showstringspaces=false,     % no special string spaces
+	aboveskip=3pt,
+	belowskip=3pt,
+	columns=fixed,
+	backgroundcolor=\color{lightgray},
+	literate={ö}{{\"{o}}}1 {Ö}{{\"{O}}}1 {ü}{{\"{u}}}1 {Ü}{{\"{u}}}1 {ó}{{\'{o}}}1 {Ó}{{\'{O}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1 {ú}{{\'{u}}}1 {Ú}{{\'{U}}}1 {é}{{\'{e}}}1 {É}{{\'{E}}}1 {á}{{\'{a}}}1 {Á}{{\'{A}}}1 {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {í}{{\'{i}}}1 {Í}{{\'{I}}}1
+} 		
+\def\lstlistingname{lista}	
+
+%--------------------------------------------------------------------------------------
+%	Some new commands and declarations
+%--------------------------------------------------------------------------------------
+\newcommand{\code}[1]{{\upshape\ttfamily\scriptsize\indent #1}}
+
+% define references
+\newcommand{\figref}[1]{\ref{fig:#1}.}
+\renewcommand{\eqref}[1]{(\ref{eq:#1})}
+\newcommand{\listref}[1]{\ref{listing:#1}.}
+\newcommand{\sectref}[1]{\ref{sect:#1}}
+\newcommand{\tabref}[1]{\ref{tab:#1}.}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+%\DeclareMathOperator*[1]{\floor}{arg\,max}
+\DeclareMathOperator{\sign}{sgn}
+\DeclareMathOperator{\rot}{rot}
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+\author{\vikszerzo}
+\title{\viktitle}
+\includeonly{
+	project,%
+	titlepage,%
+	declaration,%
+	abstract,%
+	introduction,%
+	chapter1,%
+	chapter2,%
+	chapter3,%
+	chapter4,%
+	acknowledgement,%
+	appendices,%
+}
+%--------------------------------------------------------------------------------------
+%	Setup captions
+%--------------------------------------------------------------------------------------
+\captionsetup[figure]{
+%labelsep=none,
+%font={footnotesize,it},
+%justification=justified,
+width=.75\textwidth,
+aboveskip=10pt}
+
+\renewcommand{\captionlabelfont}{\small\bf}
+\renewcommand{\captionfont}{\footnotesize\it}
+
+%--------------------------------------------------------------------------------------
+% Table of contents and the main text
+%--------------------------------------------------------------------------------------
+\begin{document}
+\singlespacing
+\include{guideline}
+\include{project}
+
+\pagenumbering{arabic}
+\onehalfspacing
+\include{titlepage}
+\tableofcontents\vfill
+\include{declaration}
+\include{abstract}
+\include{introduction}
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{acknowledgement}
+
+%\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
+%\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
+
+\bibliography{mybib}
+\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+\bibliographystyle{plain}
+
+\include{appendices}
+
+\label{page:last}
+\end{document}
