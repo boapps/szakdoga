@@ -11,4 +11,4 @@ RUN make server
 
 EXPOSE 8000
 
-CMD [ "./server", "-m /models/keyword_extraction.gguf", "--port 8000" ]
+ENTRYPOINT [ "./server", "--port 8000" ]
