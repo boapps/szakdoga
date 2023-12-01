@@ -18,4 +18,4 @@ EXPOSE 8085
 ENV THRESHOLD 0.42
 
 # Run app.py when the container launches
-CMD ["python", "bert_api.py"]
+CMD ["uvicorn", "bert_api:app"]
