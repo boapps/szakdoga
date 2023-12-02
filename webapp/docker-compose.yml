@@ -1,13 +1,6 @@
 version: '3.8'
 
 services:
-  downloader:
-    image: alpine:latest
-    volumes:
-      - shared-models:/models
-    environment:
-    command: sh -c "wget -P /models TODO"
-
   auto_kmdb:
     context: './auto_kmdb'
     ports:
@@ -19,8 +12,10 @@ services:
       - shared-models:/models
     ports:
       - "8080:8000"
+    environment:
+      - MODEL_URL = "https://huggingface.co/boapps/kmdb-entity-extraction/resolve/main/entity-extraction_q4_k_m.gguf?download=true"
+      - MODEL_FILE = "/models/entity-extraction.gguf"
     command: [ "-m /models/entity_extraction.gguf" ]
-
 
   keyword_extraction:
     context: './llama_cpp_docker'
@@ -28,8 +23,10 @@ services:
       - shared-models:/models
     ports:
       - "8080:8000"
+    environment:
+      - MODEL_URL = "https://huggingface.co/boapps/kmdb-keyword-extraction/resolve/main/keyword-extraction_q4_k_m.gguf?download=true"
+      - MODEL_FILE = "/models/keyword-extraction.gguf"
     command: [ "-m /models/keyword_extraction.gguf" ]
-
 
   relation_extraction:
     context: './llama_cpp_docker'
@@ -37,6 +34,9 @@ services:
       - shared-models:/models
     ports:
       - "8080:8000"
+    environment:
+      - MODEL_URL = "https://huggingface.co/boapps/kmdb-relation-extraction/resolve/main/relation-extraction_q4_k_m.gguf?download=true"
+      - MODEL_FILE = "/models/relation-extraction.gguf"
     command: [ "-m /models/relation_extraction.gguf" ]
 
 volumes:

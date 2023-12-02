@@ -11,4 +11,4 @@ RUN make server
 
 EXPOSE 8000
 
-ENTRYPOINT [ "./server", "--port 8000" ]
+ENTRYPOINT wget -nc -O ${MODEL_FILE} ${MODEL_URL} && ./server --port 8000
