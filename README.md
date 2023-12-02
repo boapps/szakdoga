@@ -1,3 +1,5 @@
+megjegyzés: README eléggé le van maradva a fejlesztéstől, TODO ezt javítani
+
 # szakdoga
 
 ## Feladat
