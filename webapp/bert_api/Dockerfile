@@ -12,10 +12,10 @@ RUN pip install -r requirements.txt
 RUN huggingface-cli download 'boapps/kmdb_classification_model'
 
 # Make port 8085 available to the world outside this container
-EXPOSE 8085
+EXPOSE 8000
 
 # Define environment variable TODO
 ENV THRESHOLD 0.42
 
 # Run app.py when the container launches
-CMD ["uvicorn", "bert_api:app"]
+CMD ["gunicorn", "bert_api:app", "--bind", "0.0.0.0:8000"]
