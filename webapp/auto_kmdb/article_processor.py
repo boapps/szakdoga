@@ -6,10 +6,10 @@ import requests
 from auto_kmdb.Article import Article
 from auto_kmdb.db import db
 
-CLASSIFICATION_SERVER = 'http://127.0.0.1:8085'
-KEYWORD_GENERATION_SERVER = 'http://127.0.0.1:8086'
-PEOPLE_INSTITUTIONS_SERVER = 'http://127.0.0.1:8087'
-SPACY_SERVER = 'http://127.0.0.1:8088'
+CLASSIFICATION_SERVER = 'http://bert_api:8000'
+KEYWORD_GENERATION_SERVER = 'http://keyword_extraction:8000'
+PEOPLE_INSTITUTIONS_SERVER = 'http://entity_extraction:8000'
+SPACY_SERVER = 'http://spacy_api:8000'
 article_classification_prompt = '''{title}
 {description}'''
 keyword_generation_prompt = '''[címkék generálása]

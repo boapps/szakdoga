@@ -53,8 +53,8 @@ def do_replacements(text, replacements):
     return text
 
 
-common_descriptions = read_file('data/common_descriptions.txt')
-common_lines = read_file('data/common_lines.txt')
+common_descriptions = read_file('auto_kmdb/data/common_descriptions.txt')
+common_lines = read_file('auto_kmdb/data/common_lines.txt')
 
 picture_pattern = re.compile(r'Fotó: (\w+\/[^\s]+ [^\s]+|MTI)')
 picture_pattern = re.compile(r'Fotó: .*')
@@ -169,7 +169,7 @@ class Article(db.Model):
             'text': self.text,
             'description': self.description,
             'keywords': self.keywords,
-            'tags': self.tags, 
+            'tags': self.tags,
             'people': self.people,
             'institutions': self.institutions,
             'corrupt_people': self.corrupt_people,
