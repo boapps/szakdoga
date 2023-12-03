@@ -6,14 +6,18 @@ function itemPredicate(query, item) {
     return item.toLowerCase().includes(query.toLowerCase());
 }
 
-var selected = new Map();
-var selectedPeople = new Map();
-
-function onselectPeople(item) {
-    if (selectedPeople.has(item))
-        selectedPeople.delete(item);
+function selectItem(item, items) {
+    if (items.has(item))
+        items.delete(item);
     else
-        selectedPeople.set(item, true)
+        items.set(item, true)
+} 
+
+function onselectIntitutions(item) {
+    if (selectedInstitutions.has(item))
+        selectedInstitutions.delete(item);
+    else
+        selectedInstitutions.set(item, true)
 } 
 
 function onselect(item) {
@@ -64,41 +68,59 @@ var ArticleList = {
                         ]),
                         m(SelectList, {
                             closeOnSelect: false,
-                            items: ["aaa", "bbb"],
+                            items: article.people.split(", "),
                             itemRender: item => m(ListItem, {
                                 label: item,
-                                selected: selectedPeople.has(item)
+                                selected: article.selectedPeople.has(item)
                             }),
                             trigger: m(Button, {
                                 align: 'left',
                                 compact: true,
                                 iconright: Icons.CHEVRON_DOWN,
                                 sublabel: 'személyek:',
-                                label: Array.from(selectedPeople.keys()).sort().toString(),
+                                label: Array.from(article.selectedPeople.keys()).sort().toString(),
                                 style: "width:100%",
                             }),
                             itemPredicate: itemPredicate,
-                            onSelect: onselectPeople,
+                            onSelect: item => selectItem(item, article.selectedPeople),
                         }),
-                        m(SelectList, {
+			m(SelectList, {
                             closeOnSelect: false,
-                            items: ["aaa", "bbb"],
+                            items: article.institutions.split(", "),
                             itemRender: item => m(ListItem, {
                                 label: item,
-                                selected: selected.has(item)
+                                selected: article.selectedInstitutions.has(item)
+                            }),
+                            trigger: m(Button, {
+                                align: 'left',
+                                compact: true,
+                                iconright: Icons.CHEVRON_DOWN,
+                                sublabel: 'intézmények:',
+                                label: Array.from(article.selectedInstitutions.keys()).sort().toString(),
+                                style: "width:100%",
+                            }),
+                            itemPredicate: itemPredicate,
+                            onSelect: item => selectItem(item, article.selectedInstitutions),
+                         }),
+                         m(SelectList, {
+                            closeOnSelect: false,
+                            items: article.tags.split(", "),
+                            itemRender: item => m(ListItem, {
+                                label: item,
+                                selected: article.selected.has(item)
                             }),
                             trigger: m(Button, {
                                 align: 'left',
                                 compact: true,
                                 iconright: Icons.CHEVRON_DOWN,
                                 sublabel: 'címkék:',
-                                label: Array.from(selected.keys()).sort().toString(),
+                                label: Array.from(article.selected.keys()).sort().toString(),
                                 style: "width:100%",
                             }),
                             itemPredicate: itemPredicate,
-                            onSelect: onselect,
+                            onSelect: item => selectItem(item, article.selected),
                         }),
-                    ]),
+                   ]),
                     isOpen: article.isOpen,
                     title: 'Cikk szerkesztése',
                     footer: m(`.${Classes.ALIGN_RIGHT}`, [
@@ -114,11 +136,16 @@ var ArticleList = {
                                 method: "POST",
                                 url: "http://kmonitordemo.duckdns.org/api/annote",
                                 body: {
+                                    id: article.id,
                                     url: article.url,
                                     title: article.title,
                                     description: article.description,
                                     text: article.text,
+                                    relations: article.relations,
                                     people: Array.from(selectedPeople.keys()),
+                                    corrupt_people: Array.from(selectedPeople.keys()),
+                                    institutions: Array.from(selectedPeople.keys()),
+                                    corrupt_institutions: Array.from(selectedPeople.keys()),
                                     tags: Array.from(selected.keys()),
                                 },
                             })
