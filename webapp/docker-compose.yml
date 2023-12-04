@@ -3,6 +3,10 @@ version: '3.8'
 services:
   auto_kmdb:
     build: './auto_kmdb'
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
     ports:
       - "8080:8000"
 
@@ -53,4 +57,5 @@ services:
 
 volumes:
   shared-models:
+  data:
 

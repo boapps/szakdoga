@@ -5,11 +5,14 @@ import requests
 
 from auto_kmdb.Article import Article
 from auto_kmdb.db import db
+import jsonlines
 
 CLASSIFICATION_SERVER = 'http://bert_api:8000'
 KEYWORD_GENERATION_SERVER = 'http://keyword_extraction:8000'
 PEOPLE_INSTITUTIONS_SERVER = 'http://entity_extraction:8000'
 SPACY_SERVER = 'http://spacy_api:8000'
+RELATION_EXTRACTION_SERVER = 'http://relation_extraction:8000'
+
 article_classification_prompt = '''{title}
 {description}'''
 keyword_generation_prompt = '''[címkék generálása]
@@ -38,6 +41,33 @@ institution_classification_prompt = '''[intézmény klasszifikáció]
 
 összes: {all}
 korrupcióban érintett:'''
+relation_extraction_prompt = '''Bekezdés:
+"{text}"
+
+Relációk:
+'''
+
+
+def parse_relations(output):
+    if output == 'Nincs kapcsolat.':
+        return []
+    relations = []
+    for section in output.split('\n\n'):
+        lines = section.split('\n')
+        if len(lines) != 4:
+            return None
+        if not (lines[0].startswith('Indoklás: ') or
+                lines[1].startswith('Kapcsolat: ') or
+                lines[2].startswith('Tárgy: ') or
+                lines[3].startswith('Alany: ')):
+            return None
+        relations.append({
+            "explanation": lines[0].replace('Indoklás: ', '').replace('"', ''),
+            "relation": lines[1].replace('Kapcsolat: ', '').replace('"', ''),
+            "subject": lines[2].replace('Tárgy: ', '').replace('"', ''),
+            "object": lines[3].replace('Alany: ', '').replace('"', ''),
+        })
+    return relations
 
 
 def article_processor(appcontext):
@@ -49,14 +79,9 @@ def article_processor(appcontext):
             process(article, do_classification)
             db.session.commit()
             if article.is_classified_corruption:
-                process(article, do_keyword_generation)
-                db.session.commit()
-                process(article, do_spacy_entities)
-                db.session.commit()
-                process(article, do_people_classification)
-                db.session.commit()
-                process(article, do_institution_classification)
-                db.session.commit()
+                for fun in [do_keyword_generation, do_spacy_entities, do_people_classification, do_institution_classification, do_relation_extraction]:
+                    process(article, fun)
+                    db.session.commit()
         time.sleep(1*60)
 
 
@@ -117,6 +142,20 @@ def do_institution_classification(article: Article):
     article.corrupt_institutions = respText
 
 
+def do_relation_extraction(article: Article):
+    relations = []
+    for paragraph in article.text.split('\n'):
+        text = relation_extraction_prompt.format(text=paragraph.replace('"', "'"))
+        resp = requests.post(RELATION_EXTRACTION_SERVER+'/completion',
+                             json={"prompt": text}, timeout=1800)
+        respText = resp.json()['content'].strip()
+        print(respText)
+        relations += parse_relations(respText)
+    print(relations)
+    with jsonlines.open(f'/data/relation_extraction.jsonl', mode='a') as writer:
+        writer.write_all(relations)
+
+
 def process(article: Article, f):
     print('processing url:', article.url)
     retry = 0
@@ -136,3 +175,4 @@ def process(article: Article, f):
             traceback.print_exc()
             print('exception occured, retrying in 10 seconds')
             time.sleep(10)
+

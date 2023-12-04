@@ -7,7 +7,7 @@ from auto_kmdb.article_processor import article_processor
 
 
 def create_app():
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True, instance_path='/data/instance')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///articles.db'
 
     from auto_kmdb.db import db
