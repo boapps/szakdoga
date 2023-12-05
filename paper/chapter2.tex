@@ -61,7 +61,7 @@ Az adathalmaz generálásához az OpenAI API-on keresztül elérhető GPT-4 turb
 \begin{figure}[H]
 	\centering
 \begin{tabular}{rrrr}
-	& train & validation & test \\
+	& train & validation & test \\ \hline
 	GPT-3.5 & 500 & 50 & 50 \\
 	GPT-4-turbo & 600 & 60 & 60 \\
 \end{tabular}
@@ -83,7 +83,7 @@ Ami viszont egy hátránya a GPT modelleknek, hogy a nagyobb paraméterszám mia
 \begin{figure}[H]
 	\centering
 	\begin{tabular}{rrrr}
-		modell & precision & recall  & accuracy \\
+		modell & precision & recall  & accuracy \\ \hline
 		PULI-GPT-3SX & 0.776 & 0.878 & 0.966  \\
 		llama 7B & 0.860 & 0.810 & \textbf{0.971} 	\\
 		huBERT & 0.739 & 0.950 & 0.963 \\
@@ -94,7 +94,7 @@ Ami viszont egy hátránya a GPT modelleknek, hogy a nagyobb paraméterszám mia
 \begin{figure}[H]
 	\centering
 	\begin{tabular}{rrrr}
-		modell & gpu* inference & cpu** inference \\
+		modell & gpu* inference & cpu** inference \\ \hline
 		PULI-GPT-3SX & 1.90 it/s & 0.03878 it/s \\
 		huBERT & 126.85 it/s & 7.10 it/s \\
 	\end{tabular}
@@ -106,6 +106,17 @@ Ami viszont egy hátránya a GPT modelleknek, hogy a nagyobb paraméterszám mia
 \subsection{Névelem klasszifikáció kiértékelése}
 
 Névelem klasszifikációra az adathalmaz sajátosságai miatt túlságosan komplex feladat lett volna BERT modellt tanítani, ezért itt kizárólag GPT-t használtam. Ezt úgy vezettem vissza szöveggenerálási feladatra, hogy a prompt elején átadtam a HuSpaCy által felismert entitások listáját és utána a cikk szövegét.
+
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{rr}
+		modell & accuracy \\ \hline
+		személyek & 0.8523 \\
+		intézmények & 0.8384 \\
+	\end{tabular}
+	\caption{Névelem klasszifikációs modellek pontossága}
+\end{figure}
+
 
 \subsection{Reláció kinyerés}
 

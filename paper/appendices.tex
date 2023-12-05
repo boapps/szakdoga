@@ -44,7 +44,62 @@ A cikkeket metaadatokkal is ellátták az alábbiak szerint:
 
 \clearpage\section{Használt promptok}
 
-TODO
+\subsection{Címkék generálása}
 
+\begin{verbatim}
+[címkék generálása]
+{title}
 
+{description}
 
+{text}
+
+cimkék: {keywords}
+
+###
+
+korrupciós címkék: {output}
+\end{verbatim}
+
+\subsection{Entitás klasszifikáció (személyek)}
+
+\begin{verbatim}
+[személy klasszifikáció]
+{text}
+
+###
+
+összes: {all}
+korrupcióban érintett: {output}
+\end{verbatim}
+
+\subsection{Entitás klasszifikáció (intézmények)}
+
+\begin{verbatim}
+[intézmény klasszifikáció]
+{text}
+
+###
+
+összes: {all}
+korrupcióban érintett: {output}
+\end{verbatim}
+
+\subsection{Reláció kinyerés}
+
+\begin{verbatim}
+Bekezdés:
+"{text}"
+
+Relációk:
+{output}
+\end{verbatim}
+
+ahol az output az alábbi struktúrájú objektumokat tartalmazó tömb:
+
+\begin{verbatim}
+Indoklás: {explanation}
+Kapcsolat: {relation}
+Tárgy: {subject}
+Alany: {object}
+\end{verbatim}
