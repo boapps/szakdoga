@@ -37,7 +37,7 @@ var ArticleList = {
                 m("div", article.lead),
                 m("date", article.date),
                 m(ButtonGroup, {}, [
-                    m(Button, {iconLeft: Icons.X, intent: 'none', label: 'Nem korrupció', onclick: e => m.request({
+                    m(Button, {iconLeft: Icons.X, intent: 'none', label: 'Mégse', onclick: e => m.request({
                         method: "POST",
                         url: "http://kmonitordemo.duckdns.org/api/not_corruption",
                         body: {
@@ -48,7 +48,7 @@ var ArticleList = {
                         Article.loadList();
                     }),
                 }),
-                    m(Button, {iconLeft: Icons.CHECK, intent: 'primary', label: 'Korrupció', onclick: e => article.isOpen=true}),
+                    m(Button, {iconLeft: Icons.CHECK, intent: 'primary', label: 'Tovább', onclick: e => article.isOpen=true}),
                 ]),
                 m(Dialog, {
                     content: m("[style=padding:10px]", [
